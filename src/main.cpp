@@ -28,6 +28,27 @@ static void	PrintReducedForm(const ComputorV1& computor) {
 	cout << " = 0" << endl;
 }
 
+static void	PrintSolution(const ComputorV1& computor) {
+	vector<complex<double>>	results = computor.GetSolutions();
+	if (results.size() == 1)
+		cout << "The solution is: " << results[0].real() << endl;
+	else if (results.size() == 2) {
+		cout << "Solutions are:" << endl;
+		for (const auto r : results) {
+			if (r.imag()) {
+				cout << r.real() << " ";
+				if (r.imag() < 0)
+					cout << "- i * " << (-1) * r.imag() << endl;
+				else
+					cout << "+ i * " << r.imag() << endl;
+			} else
+				cout << r.real() << endl;
+		}
+	} else if (results.empty())
+		cout << "All numbers are solutions" << endl;
+
+}
+
 static void	CalcPolynomResult(string polynom) {
 	ComputorV1	computor(polynom);
 	int			degree;
@@ -38,15 +59,7 @@ static void	CalcPolynomResult(string polynom) {
 	PrintReducedForm(computor);
 	if (degree > 2 || degree < 0)
 		throw out_of_range("The polynomial degree must not be greater than 2 and not less than 0, I can't solve.");
-//	vector<complex<double>>	results = computor.GetSolutions();
-	// if (results.size() == 1)
-	// 	cout << "The solution is:" << endl
-	// 		<< results[0] << endl;
-	// else {
-	// 	cout << "Solutions are:" << endl;
-	// 	for (const auto r : results)
-	// 		cout << r << endl;
-	// }
+	PrintSolution(computor);
 }
 
 int	main(int argc, char **argv) {
