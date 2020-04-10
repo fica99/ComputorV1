@@ -31,7 +31,7 @@ Program that solves a polynomial equation of degree less than or equal to 2. Pro
 3.  ```console
 	$> make
 	$> ./computorV1
-	Usage: ./computorV1 "5 * x^2 - 3 * x + 5 = 0"
+	Usage: ./computorV1 [-l] "5 * x^2 - 3 * x + 5 = 0"
 	```
 
 ## Examples
@@ -53,7 +53,7 @@ The solution is:
 $> ./computorV1 "8 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 3 * X^0"
 Reduced form: 5 * X^0 - 6 * X^1 + 0 * X^2 - 5.6 * X^3 = 0
 Polynomial degree: 3
-The polynomial degree is stricly greater than 2, I can't solve.
+The polynomial degree must not be greater than 2 and not less than 0, I can't solve.
 
 $> ./computorV1 "5 + 4 * X + X^2= X^2"
 Reduced form: 5 + 4 * X = 0

@@ -15,8 +15,9 @@ class	ComputorV1 {
 		const map<int, double>& GetReducedForm() const;
 		int GetPolynomialDegree() const;
 		vector<complex<double>> GetSolutions() const;
+		void	StepByStepSolution(ostream& ss) const;
 	private:
-		map<int, double>	degree_to_coeff;
+		map<int, double>		degree_to_coeff;
 };
 
 void					ParsePolynom(const string& polynom,

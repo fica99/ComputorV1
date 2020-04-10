@@ -5,7 +5,7 @@
 #include <string>
 #include "computorV1.h"
 
-#define USAGE "Usage: ./computorV1 \"5 * x^2 + 3 * x + 5 = 0\""
+#define USAGE "Usage: ./computorV1 [-l] \"5 * x^2 + 3 * x + 5 = 0\""
 
 using namespace	std;
 
@@ -28,7 +28,9 @@ static void	PrintReducedForm(const ComputorV1& computor) {
 	cout << " = 0" << endl;
 }
 
-static void	PrintSolution(const ComputorV1& computor) {
+static void	PrintSolution(const ComputorV1& computor, bool full_solution) {
+	if (full_solution)
+		computor.StepByStepSolution(cout);
 	vector<complex<double>>	results = computor.GetSolutions();
 	if (results.size() == 1)
 		cout << "The solution is: " << results[0].real() << endl;
@@ -46,10 +48,9 @@ static void	PrintSolution(const ComputorV1& computor) {
 		}
 	} else if (results.empty())
 		cout << "All numbers are solutions" << endl;
-
 }
 
-static void	CalcPolynomResult(string polynom) {
+static void	CalcPolynomResult(string polynom, bool full_solution) {
 	ComputorV1	computor(polynom);
 	int			degree;
 
@@ -59,16 +60,23 @@ static void	CalcPolynomResult(string polynom) {
 	PrintReducedForm(computor);
 	if (degree > 2 || degree < 0)
 		throw out_of_range("The polynomial degree must not be greater than 2 and not less than 0, I can't solve.");
-	PrintSolution(computor);
+	PrintSolution(computor, full_solution);
 }
 
 int	main(int argc, char **argv) {
+	bool	full_solution = false;
+
 	if (argc != 2) {
-		cout << USAGE << endl;
-		return (1);
+		if (argc == 3){
+			if (string(argv[1]) == "-l")
+				full_solution = true;
+		} else {
+			cout << USAGE << endl;
+			return (1);
+		}
 	}
 	try {
-		CalcPolynomResult(string(argv[1]));
+		CalcPolynomResult(string(argv[argc - 1]), full_solution);
 	} catch (exception& ex) {
 		cout << ex.what() << endl;
 		return (1);

@@ -98,8 +98,7 @@ vector<complex<double>>	QuadraticEquation(const double a,
 			result.push_back(complex<double>(-c / b, 0));
 		else if (c)
 			throw out_of_range("No solution");
-	}
-	else {
+	} else {
 		double dis = b * b - 4 * a * c;
 		if (!dis)
 			result.push_back(complex<double>(-b / 2 * a, 0));
@@ -112,7 +111,7 @@ vector<complex<double>>	QuadraticEquation(const double a,
 	return result;
 }
 
-vector<complex<double>>	ComputorV1::GetSolutions() const {
+static vector<double>	FindCoeff(const map<int, double>& degree_to_coeff) {
 	double a = 0;
 	double b = 0;
 	double c = 0;
@@ -125,5 +124,39 @@ vector<complex<double>>	ComputorV1::GetSolutions() const {
 	auto itc = degree_to_coeff.find(0);
 	if (itc != degree_to_coeff.end())
 		c = itc->second;
-	return (QuadraticEquation(a, b, c));
+	return {a, b, c};
+}
+
+void	ComputorV1::StepByStepSolution(ostream& ss) const {
+	vector<double>	coeff = FindCoeff(degree_to_coeff);
+
+	ss << "a * x ^ 2 + b * x + c = 0" << endl;
+	ss << "a = " << coeff[0] << endl;
+	ss << "b = " << coeff[1] << endl;
+	ss << "c = " << coeff[2] << endl;
+	if (!coeff[0]) {
+		if (coeff[1])
+			ss << "-c / b = " << -coeff[2] << " / " << coeff[1] << " = "
+				<< -coeff[2] / coeff[1] << endl;
+		else if (coeff[2])
+			ss << coeff[2] << " is not equal to 0" << endl;
+	} else {
+		ss << "D = b^2 - 4 * a * c = " << coeff[1] << "*" << coeff[1]
+			<< " - 4 *" << coeff[0] << "*" << coeff[2] << " = ";
+		double dis = coeff[1] * coeff[1] - 4 * coeff[0] * coeff[2];
+		ss << dis << endl;
+		if (!dis) {
+			ss << "D is equal to 0" << endl;
+			ss << "x = -b / (2 * a) = " << -coeff[1] << "/" <<
+			2 * coeff[0] << endl;
+		} else {
+			ss << "x1 = (-b + sqrt(D)) / (2 * a)" << endl;
+			ss << "x2 = (-b - sqrt(D)) / (2 * a)" << endl;
+		}
+	}
+}
+
+vector<complex<double>>	ComputorV1::GetSolutions() const {
+	vector<double>	coeff = FindCoeff(degree_to_coeff);
+	return (QuadraticEquation(coeff[0], coeff[1], coeff[2]));
 }
