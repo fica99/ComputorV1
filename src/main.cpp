@@ -5,19 +5,40 @@
 #include <string>
 #include "computorV1.h"
 
-#define USAGE "Usage: ./computorV1 \"5 * x^2 - 3 * x + 5 = 0\""
+#define USAGE "Usage: ./computorV1 \"5 * x^2 + 3 * x + 5 = 0\""
 
 using namespace	std;
 
-static void	CalcPolynom(string polynom) {
+static void	PrintReducedForm(const ComputorV1& computor) {
+	cout << "Reduced form: ";
+	const map<int, double>&	degree_to_coeff = computor.GetReducedForm();
+	for (auto it = rbegin(degree_to_coeff); it != rend(degree_to_coeff);
+															++it) {
+		if (it != rbegin(degree_to_coeff)) {
+			if (it->second < 0)
+				cout << " - " << -1 * it->second;
+			else
+				cout << " + " << it->second;
+		} else
+			cout << it->second;
+		cout << " * x^" << it->first;
+	}
+	if (!degree_to_coeff.size())
+		cout << "0";
+	cout << " = 0" << endl;
+}
+
+static void	CalcPolynomResult(string polynom) {
 	ComputorV1	computor(polynom);
+	int			degree;
 
-	// cout << "Reduced form: " <<
-	// 	computor.GetReducedForm() << endl;
-	// cout << "Polynomial degree: " <<
-	// 	computor.GetPolynomialDegree() << endl;
-	// vector<complex<double>>	results = computor.GetSolutions();
-
+	cout << "Polynomial degree: ";
+	degree = computor.GetPolynomialDegree();
+	cout << degree << endl;
+	PrintReducedForm(computor);
+	if (degree > 2 || degree < 0)
+		throw out_of_range("The polynomial degree must not be greater than 2 and not less than 0, I can't solve.");
+//	vector<complex<double>>	results = computor.GetSolutions();
 	// if (results.size() == 1)
 	// 	cout << "The solution is:" << endl
 	// 		<< results[0] << endl;
@@ -34,7 +55,7 @@ int	main(int argc, char **argv) {
 		return (1);
 	}
 	try {
-		CalcPolynom(string(argv[1]));
+		CalcPolynomResult(string(argv[1]));
 	} catch (exception& ex) {
 		cout << ex.what() << endl;
 		return (1);

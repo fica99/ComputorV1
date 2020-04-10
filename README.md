@@ -24,6 +24,16 @@ Program that solves a polynomial equation of degree less than or equal to 2. Pro
 * Display the solution(s) under the form of irrational fractions when it is interesting..
 * Display intermediate steps
 
+## Usage
+
+1. Clone project
+2. cd computorV1
+3.  ```console
+	$> make
+	$> ./computorV1
+	Usage: ./computorV1 "5 * x^2 - 3 * x + 5 = 0"
+	```
+
 ## Examples
 
 ```console

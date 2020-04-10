@@ -12,7 +12,7 @@ class	ComputorV1 {
 		ComputorV1(const string& polynom);
 		const map<int, double>& GetReducedForm() const;
 		int GetPolynomialDegree() const;
-		vector<complex<double>> GetSolutions() const;
+		//vector<complex<double>> GetSolutions() const;
 	private:
 		map<int, double>	degree_to_coeff;
 };

@@ -51,6 +51,8 @@ void	ParsePolynom(const string& polynom,
 	size_t	i = 0;
 	int8_t	sign = 1;
 
+	if (polynom.empty())
+		throw invalid_argument("Invalid polynom. Empty string. See usage!");
 	while (true) {
 		double	coeff = GetCoeff(polynom, i);
 		int		degree = GetDegree(polynom, i);
@@ -67,8 +69,23 @@ void	ParsePolynom(const string& polynom,
 	}
 	if (sign != -1)
 		throw invalid_argument("Invalid format. No symbol equals. See usage!");
+	for (auto& it : deg_to_coeff)
+		if (!it.second)
+			deg_to_coeff.erase(it.first);
 }
 
 ComputorV1::ComputorV1(const string& polynom) {
 	ParsePolynom(polynom, degree_to_coeff);
+}
+
+int	ComputorV1::GetPolynomialDegree() const {
+
+	int res = 0;
+	if (degree_to_coeff.begin() != degree_to_coeff.end())
+		res = prev(degree_to_coeff.end())->first;
+	return res;
+}
+
+const map<int, double>&	ComputorV1::GetReducedForm() const {
+	return degree_to_coeff;
 }
