@@ -1,42 +1,75 @@
-#include <iostream>
-#include <vector>
-#include <exception>
-#include <string>
 #include "computorV1.h"
 
-#define USAGE "Usage: ./computorV1 \"5 * x^2 - 3 * x + 5 = 0\""
+#include <iostream>
 
-using namespace	std;
+// static size_t	IsValidDelim(const string& delim) {
+// 	size_t	i = 0;
 
-static void	CalcPolynom(const string polynom) {
-	ComputorV1	computor(polynom);
+// 	if (delim[i] != '*' && delim[i] != 'x') {
+// 		if (delim[i] != '+' && delim[i] != '-')
+// 			throw invalid_argument("Invalid symbol. It must be +, -, or *. See usage!");
+// 		return (i);
+// 	}
+// 	while (delim[i] == ' ')
+// 		++i;
+// 	if (i != delim.size()) {
+// 		if (delim[i++] != 'x')
+// 			throw invalid_argument("Invalid format. See usage!");
+// 	}
+// 	return (i + 1);
+// }
 
-	cout << "Reduced form: " <<\
-		computor.GetReducedForm() << endl;
-	cout << "Polynomial degree: " << \
-		computor.GetPolynomialDegree() << endl;
-	vector<double>	results = computor.GetSolutions();
+static double	GetCoeff(const string& str, size_t& i) {
+	int8_t	sign = 1;
+	double	result = 1;
 
-	if (results.size() == 1)
-		cout << "The solution is:" << endl \
-			<< results[0] << endl;
-	else {
-		cout << "Solutions are:" << endl;
-		for (const auto r : results)
-			cout << r << endl;
+	while (str[i] == ' ')
+		++i;
+	if (str[i] == '-' || str[i] == '+') {
+		if (str[i] == '-')
+			sign = -1;
+		++i;
 	}
+	while (str[i] == ' ')
+		++i;
+	if (isdigit(str[i])) {
+		size_t	end;
+		result = stod(str.substr(i), &end);
+		i += end;
+	}
+	return (result * sign);
 }
 
-int	main(int argc, char **argv) {
-	if (argc != 2) {
-		cout << USAGE << endl;
-		return (1);
-	}
-	try {
-		CalcPolynom({argv[0]});
-	} catch (exception& ex) {
-		cout << ex.what() << endl;
-		return (1);
-	}
+static int		GetDegree(const string& str, size_t& i) {
+	(void)str;
+	(void)i;
 	return (0);
+}
+
+
+void	ParsePolynom(const string& polynom,
+						map<int, double>& deg_to_coeff) {
+	size_t	i = 0;
+	int8_t	sign = 1;
+
+	while (i != polynom.size()) {
+		while (polynom[i] == ' ')
+			++i;
+		if (polynom[i] == '=') {
+			sign = -1;
+			continue ;
+		}
+		double	coeff = GetCoeff(polynom, i);
+		int		degree = GetDegree(polynom, i);
+		cout << "coeff = " << coeff << endl;
+		cout << "degree = " << degree << endl;
+		deg_to_coeff[degree] += (coeff * sign);
+		break;
+	}
+	if (sign != -1)
+		throw invalid_argument("Invalid format. No symbol equals. See usage!");
+}
+
+ComputorV1::ComputorV1(const string& polynom) {
+	ParsePolynom(polynom, degree_to_coeff);
 }

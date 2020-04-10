@@ -7,7 +7,8 @@ HDR_DIR	=		includes
 OBJ_DIR	=		objs
 
 # ------------  SOURCE FILES  ------------------------------------------------ #
-SRC_FLS	=       computorV1.cpp
+SRC_FLS	=       main.cpp\
+				computorV1.cpp
 
 # ------------  FILEPATHS  --------------------------------------------------- #
 SRCS	=		$(addprefix $(SRC_DIR)/, $(SRC_FLS))
