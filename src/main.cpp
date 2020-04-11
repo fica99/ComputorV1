@@ -5,7 +5,7 @@
 #include <string>
 #include "computorV1.h"
 
-#define USAGE "Usage: ./computorV1 [-l] \"5 * x^2 + 3 * x + 5 = 0\""
+#define USAGE "Usage: ./computorV1 [-l] \"a * x^n + b * x^m + ... + c * x^l = P(x)\""
 
 using namespace	std;
 
@@ -66,16 +66,15 @@ static void	CalcPolynomResult(string polynom, bool full_solution) {
 int	main(int argc, char **argv) {
 	bool	full_solution = false;
 
-	if (argc != 2) {
-		if (argc == 3){
+	try {
+		if (argc != 3 && argc != 2)
+			throw invalid_argument(USAGE);
+		if (argc == 3) {
 			if (string(argv[1]) == "-l")
 				full_solution = true;
-		} else {
-			cout << USAGE << endl;
-			return (1);
+			else
+				throw invalid_argument("Invalid flag");
 		}
-	}
-	try {
 		CalcPolynomResult(string(argv[argc - 1]), full_solution);
 	} catch (exception& ex) {
 		cout << ex.what() << endl;

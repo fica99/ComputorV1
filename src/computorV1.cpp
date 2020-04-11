@@ -136,22 +136,28 @@ void	ComputorV1::StepByStepSolution(ostream& ss) const {
 	ss << "c = " << coeff[2] << endl;
 	if (!coeff[0]) {
 		if (coeff[1])
-			ss << "-c / b = " << -coeff[2] << " / " << coeff[1] << " = "
-				<< -coeff[2] / coeff[1] << endl;
+			ss << "-c / b = " << -coeff[2] << " / " << coeff[1]
+			<< " = " << -coeff[2] / coeff[1] << endl;
 		else if (coeff[2])
 			ss << coeff[2] << " is not equal to 0" << endl;
 	} else {
 		ss << "D = b^2 - 4 * a * c = " << coeff[1] << "*" << coeff[1]
-			<< " - 4 *" << coeff[0] << "*" << coeff[2] << " = ";
+		<< " - 4 *" << coeff[0] << "*" << coeff[2] << " = ";
 		double dis = coeff[1] * coeff[1] - 4 * coeff[0] * coeff[2];
 		ss << dis << endl;
 		if (!dis) {
 			ss << "D is equal to 0" << endl;
 			ss << "x = -b / (2 * a) = " << -coeff[1] << "/" <<
-			2 * coeff[0] << endl;
+			2 * coeff[0] << " = " << -coeff[1] / (2 * coeff[0]) << endl;
 		} else {
-			ss << "x1 = (-b + sqrt(D)) / (2 * a)" << endl;
-			ss << "x2 = (-b - sqrt(D)) / (2 * a)" << endl;
+			ss << "x1 = (-b + sqrt(D)) / (2 * a) = " << "("
+			<< -coeff[1] << " + " << sqrt(complex<double>(dis))
+			<< ") / " << 2 * coeff[0] << " = " <<
+			(-coeff[1] + sqrt(complex<double>(dis))) / (2 * coeff[0]) << endl;
+			ss << "x2 = (-b - sqrt(D)) / (2 * a) = " << "("
+			<< -coeff[1] << " - " << sqrt(complex<double>(dis))
+			<< ") / " << 2 * coeff[0] << " = " <<
+			(-coeff[1] - sqrt(complex<double>(dis))) / (2 * coeff[0]) << endl;
 		}
 	}
 }
