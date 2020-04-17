@@ -19,7 +19,9 @@ and pretty), can be expressed at using polynomials.
 
 Polynom must be written in form:
 
-$P(x) = \Sigma_{k = 0}^na_kx^k$
+```math
+P(x) = \sum\limits_{k = 0}^{n}a_{k}x^{k}
+```
 
 Program that solves a polynomial equation of degree less than or equal to 2 and higher or equal to 0. Program display:
 * The reduced form of the equation.
