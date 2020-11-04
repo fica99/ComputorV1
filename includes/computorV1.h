@@ -1,27 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   computorV1.h                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: aashara- <aashara-@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/04 17:45:06 by aashara-          #+#    #+#             */
+/*   Updated: 2020/11/04 19:30:38 by aashara-         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #pragma once
 #include <string>
-#include <complex>
-#include <vector>
 #include <map>
-#include <iterator>
-#include <algorithm>
-#include <utility>
+// #include <complex>
+// #include <vector>
+// #include <iterator>
+// #include <algorithm>
+// #include <utility>
 
-using namespace	std;
-
-class	ComputorV1 {
+class ComputorV1 {
 	public:
-		ComputorV1(const string& polynom);
-		const map<int, double>& GetReducedForm() const;
-		int GetPolynomialDegree() const;
-		vector<complex<double>> GetSolutions() const;
-		void	StepByStepSolution(ostream& ss) const;
+		ComputorV1(const std::string polynom);
+		// const std::map<int, double>&	GetReducedForm() const;
+		// int														GetPolynomialDegree() const;
+		// std::vector<complex<double>>	GetSolutions() const;
+		// void													StepByStepSolution(std::ostream& ss) const;
 	private:
-		map<int, double>		degree_to_coeff;
+		std::map<int, double>		degree_to_coeff;
 };
 
-void					ParsePolynom(const string& polynom,
-								map<int, double>& deg_to_coeff);
-vector<complex<double>>	QuadraticEquation(const double a,
-								const double b, const double c);
+// void													ParsePolynom(const std::string& polynom,
+// 																			std::map<int, double>& deg_to_coeff);
+// std::vector<complex<double>>	QuadraticEquation(const double a,
+// 																			const double b, const double c);
 

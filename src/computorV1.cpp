@@ -1,5 +1,39 @@
 #include "computorV1.h"
 
+using namespace	std;
+
+ComputorV1::ComputorV1(const string polynom) {
+	ParsePolynom(polynom, degree_to_coeff);
+}
+
+
+void	ParsePolynom(const string& polynom,
+						map<int, double>& deg_to_coeff) {
+	size_t	i = 0;
+	int8_t	sign = 1;
+
+	if (polynom.empty())
+		throw invalid_argument("Invalid polynom. Empty string. See usage!");
+	while (true) {
+		double	coeff = GetCoeff(polynom, i);
+		int		degree = GetDegree(polynom, i);
+		deg_to_coeff[degree] += (coeff * sign);
+		i = polynom.find_first_not_of(' ', i);
+		if (polynom[i] == '\0')
+			break ;
+		if (polynom[i] == '=') {
+			i = polynom.find_first_not_of(' ', ++i);
+			if (i == polynom.size())
+				throw invalid_argument("Invalid format. No symbols after equals. See usage!");
+			sign = -1;
+		}
+	}
+	if (sign != -1)
+		throw invalid_argument("Invalid format. No symbol equals. See usage!");
+	RemoveZeroCoeff(deg_to_coeff);
+}
+
+
 static double	GetCoeff(const string& str, size_t& i) {
 	int8_t	sign = 1;
 	double	result = 1;
@@ -44,37 +78,6 @@ static void	RemoveZeroCoeff(map<int, double>& deg_to_coeff) {
 	for (const auto& v : deg_to_coeff)
 		if (v.second == 0)
 			deg_to_coeff.erase(v.first);
-}
-
-
-void	ParsePolynom(const string& polynom,
-						map<int, double>& deg_to_coeff) {
-	size_t	i = 0;
-	int8_t	sign = 1;
-
-	if (polynom.empty())
-		throw invalid_argument("Invalid polynom. Empty string. See usage!");
-	while (true) {
-		double	coeff = GetCoeff(polynom, i);
-		int		degree = GetDegree(polynom, i);
-		deg_to_coeff[degree] += (coeff * sign);
-		i = polynom.find_first_not_of(' ', i);
-		if (polynom[i] == '\0')
-			break ;
-		if (polynom[i] == '=') {
-			i = polynom.find_first_not_of(' ', ++i);
-			if (i == polynom.size())
-				throw invalid_argument("Invalid format. No symbols after equals. See usage!");
-			sign = -1;
-		}
-	}
-	if (sign != -1)
-		throw invalid_argument("Invalid format. No symbol equals. See usage!");
-	RemoveZeroCoeff(deg_to_coeff);
-}
-
-ComputorV1::ComputorV1(const string& polynom) {
-	ParsePolynom(polynom, degree_to_coeff);
 }
 
 int	ComputorV1::GetPolynomialDegree() const {
